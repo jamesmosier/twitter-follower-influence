@@ -27,35 +27,6 @@ request.post(options, (error, response, body) => {
   getUserFollowers();
 });
 
-
-
-// const tokenPostData = { 'grant_type': 'client_credentials' };
-// const tokenHeaders = {
-//   headers: {
-//     Authorization: 'Basic ' + encode_secret,
-//     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-//   }
-// };
-
-// axios({
-//   method: 'post',
-//   url: 'https://api.twitter.com/oauth2/token',
-//   data: { 'grant_type': 'client_credentials' },
-//   headers: {
-//     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-//     'Accept': 'application/json; charset=utf-8',
-//     Authorization: 'Basic ' + encode_secret
-//   }
-// })
-//   .then((data) => {
-//     const resp = JSON.parse(data);
-//     console.log(resp);
-//   })
-//   .catch((err) => {
-//     console.log(err)
-//     throw err;
-//   });
-
 let followers = [];
 
 function getUserFollowers(cursor) {
