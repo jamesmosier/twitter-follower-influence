@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "CONSUMER_KEY=ENTRY-YOUR-KEY CONSUMER_SECRET=ENTRY-YOUR-SECRET node index.js"
+  },
   "dependencies": {
     "axios": "0.17.1",
     "jsonfile": "4.0.0",

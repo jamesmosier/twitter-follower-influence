@@ -3,8 +3,11 @@ const _ = require('lodash');
 const request = require('request')
 const jsonfile = require('jsonfile');
 
-const consumer_key = 'YOUR_CONSUMER_KEY';
-const consumer_secret = 'YOU_CONSUMER_SECRET';
+// User to search against
+const twitterUser = 'jamez14';
+
+const consumer_key = process.env.CONSUMER_KEY;
+const consumer_secret = process.env.CONSUMER_SECRET;
 const encode_secret = new Buffer(`${consumer_key}:${consumer_secret}`).toString(
   'base64'
 );
@@ -31,7 +34,7 @@ let followers = [];
 
 function getUserFollowers(cursor) {
   const followersApiUrl =
-    `https://api.twitter.com/1.1/followers/list.json?cursor=${cursor ? cursor : -1}&screen_name=jamez14&skip_status=true&include_user_entities=false&count=200`;
+    `https://api.twitter.com/1.1/followers/list.json?cursor=${cursor ? cursor : -1}&screen_name=${twitterUser}&skip_status=true&include_user_entities=false&count=200`;
 
   return axios
     .get(followersApiUrl, {
@@ -42,12 +45,10 @@ function getUserFollowers(cursor) {
         const nextCursor = response.data.next_cursor;
         const users = response.data.users;
 
-        const output = _.sortBy(users, u => u.followers_count);
-
-        const usersArr= _.map(output, (user) => {
+        const usersArr= _.map(users, (user) => {
           return {
             handle: user.screen_name,
-            follower_count: user.followers_count
+            followers_count: user.followers_count
           };
         });
 
@@ -56,7 +57,8 @@ function getUserFollowers(cursor) {
         if (nextCursor !== 0) {
           getUserFollowers(nextCursor);
         } else {
-          jsonfile.writeFile('output.json', followers, function (err) {
+          const followersSorted = _.sortBy(followers, f => f.followers_count);
+          jsonfile.writeFile('output.json', followersSorted, function (err) {
             if (err) {
               console.error(err);
             }
